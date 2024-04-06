@@ -338,7 +338,7 @@ public class ClaimSystem implements ClaimProcessManager {
             dependentWriter.close();
             BufferedWriter policyHolderWriter = new BufferedWriter(new FileWriter(policyHolderFilePath));
             for (PolicyHolder policyHolder : policyHolders) {
-                policyHolderWriter.write(policyHolder.getCustomerId() + "," + policyHolder.getFullName() + "," + policyHolder.getClaimList() + "," + policyHolder.getInsuranceCard().getCardNumber() + "," + policyHolder.getDependentIds());
+                policyHolderWriter.write(policyHolder.getCustomerId() + "," + policyHolder.getFullName() + "," + policyHolder.getClaimList() + "," + policyHolder.getInsuranceCard().getCardNumber() + "," + policyHolder.getDependents());
                 policyHolderWriter.newLine();
             }
             policyHolderWriter.close();
