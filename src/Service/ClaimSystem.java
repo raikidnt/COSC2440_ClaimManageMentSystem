@@ -79,7 +79,7 @@ public class ClaimSystem implements ClaimProcessManager {
 
 
     public void run() {
-        ClaimSystem.loadData();
+        loadData();
         System.out.println("Welcome to the Insurance Model.Claim System");
         while (true) {
             System.out.println("Please select an option:");
@@ -310,6 +310,19 @@ public class ClaimSystem implements ClaimProcessManager {
         }
         claim.setStatus(status);
         System.out.println("Claim processed: " + claim);
+    }
+
+    public void deleteClaim(){
+        printClaims();
+        System.out.println("Enter the claim id of the claim you want to delete");
+        Scanner scanner = new Scanner(System.in);
+        String claimId = scanner.next();
+        Claim claim = getOne(claimId);
+        if (claim == null){
+            System.out.println("Claim not found");
+            return;
+        }
+        delete(claim);
     }
 
     private static ArrayList<String> parseArraytoArrList(String arrayString){
