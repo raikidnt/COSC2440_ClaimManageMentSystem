@@ -71,4 +71,11 @@ public class Customer {
         }
     }
 
+    @Override
+    public String toString() {
+        return "customerId='" + customerId + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", insuranceCard=" + insuranceCard +
+                ", claimList=" + claimList + '\'';
+    }
 }

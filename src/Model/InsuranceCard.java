@@ -10,11 +10,19 @@ public class InsuranceCard {
     private String policyOwner;
     private LocalDate expiryDate;
 
+    public InsuranceCard(String cardNumber, String policyOwner, String expiryDate) {
+        this.cardNumber = cardNumber;
+        this.policyOwner = policyOwner;
+        this.expiryDate = LocalDate.parse(expiryDate);
+    }
     public InsuranceCard(String cardNumber, String policyOwner, LocalDate expiryDate) {
         this.cardNumber = cardNumber;
         this.policyOwner = policyOwner;
         this.expiryDate = expiryDate;
+        this.cardHolder = null;
     }
+
+
     public String getCardNumber() {
         return cardNumber;
     }
@@ -46,5 +54,7 @@ public class InsuranceCard {
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
     }
+
+
 
 }

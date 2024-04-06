@@ -2,15 +2,15 @@ package Model;
 
 import Model.Customer;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Claim {
     private String claimId;
-    private Date claimDate;
+    private LocalDate claimDate;
     private Customer insuredPerson;
-    private Date examDate;
+    private LocalDate examDate;
     private List<String> documentList;
     private float claimAmount;
     private String status;
@@ -18,14 +18,14 @@ public class Claim {
     private String bankNumber;
     private String receiverName;
 
-    public Claim(String claimId, Date claimDate, Customer
-                insuredPerson, Date examDate, List<String> documentList,
+    public Claim(String claimId, String claimDate, Customer
+                insuredPerson, String examDate, List<String> documentList,
                  float claimAmount, String status,
                  String bankName, String bankNumber, String receiverName) {
         this.claimId = claimId;
-        this.claimDate = claimDate;
+        this.claimDate = LocalDate.parse(claimDate);
         this.insuredPerson = insuredPerson;
-        this.examDate = examDate;
+        this.examDate = LocalDate.parse(examDate);
         this.documentList = documentList;
         this.claimAmount = claimAmount;
         this.status = status;
@@ -34,45 +34,40 @@ public class Claim {
         this.receiverName = receiverName;
     }
 
-    public Claim(String claimId, Date claimDate, Customer insuredPerson,
-                 Date examDate, float claimAmount, String status, String bankName,
-                 String bankNumber, String receiverName) {
+    public Claim(String claimId, String claimDate, String examDate, ArrayList<String> documentList, float claimAmount, String status, String bankName, String bankNumber, String receiverName) {
         this.claimId = claimId;
-        this.claimDate = claimDate;
-        this.insuredPerson = insuredPerson;
-        this.examDate = examDate;
-        this.claimAmount = claimAmount;
-        this.status = status;
-        this.bankName = bankName;
-        this.bankNumber = bankNumber;
-        this.receiverName = receiverName;
-        this.documentList = new ArrayList<>();
-    }
-
-    public Claim(String claimId, float claimAmount, String status, String bankName, String bankNumber, String receiverName) {
-        this.claimId = claimId;
-        this.claimDate = claimDate;
-        this.examDate = examDate;
+        this.claimDate = LocalDate.parse(claimDate);
+        this.examDate = LocalDate.parse(examDate);
         this.claimAmount = claimAmount;
         this.status = status;
         this.bankName = bankName;
         this.bankNumber = bankNumber;
         this.receiverName = receiverName;
         this.insuredPerson = null;
-        this.documentList = null;
-        this.claimDate = new Date();
-        this.examDate = new Date();
     }
+    public Claim(String claimId, LocalDate claimDate,Customer insuredPerson, ArrayList<String> documentList, float claimAmount, String status, String bankName, String bankNumber, String receiverName) {
+        this.claimId = claimId;
+        this.claimDate = claimDate;
+        this.examDate = null;
+        this.claimAmount = claimAmount;
+        this.status = status;
+        this.bankName = bankName;
+        this.bankNumber = bankNumber;
+        this.receiverName = receiverName;
+        this.insuredPerson = insuredPerson;
+        this.documentList = documentList;
+    }
+
 
     public String getClaimId() {
         return claimId;
     }
 
-    public Date getClaimDate() {
+    public LocalDate getClaimDate() {
         return claimDate;
     }
 
-    public void setClaimDate(Date claimDate) {
+    public void setClaimDate(LocalDate claimDate) {
         this.claimDate = claimDate;
     }
 
@@ -92,11 +87,11 @@ public class Claim {
         this.insuredPerson = insuredPerson;
     }
 
-    public Date getExamDate() {
+    public LocalDate getExamDate() {
         return examDate;
     }
 
-    public void setExamDate(Date examDate) {
+    public void setExamDate(LocalDate examDate) {
         this.examDate = examDate;
     }
 
@@ -105,7 +100,7 @@ public class Claim {
     }
     public void setDoccumentList(List<String> doclist){ this.documentList = doclist; }
 
-//   doccument add, remove ,clear
+//   document add, remove ,clear
     public void addDocument(String document) {
         if (documentList.contains(document)) {
             return;
@@ -156,8 +151,7 @@ public class Claim {
 
     @Override
     public String toString() {
-        return "Model.Claim{" +
-                "claimId='" + claimId + '\'' +
+        return "claimId='" + claimId + '\'' +
                 ", claimDate=" + claimDate +
                 ", insuredPerson=" + insuredPerson.getFullName() +
                 ", examDate=" + examDate +
@@ -166,7 +160,6 @@ public class Claim {
                 ", status=" + status + '\'' +
                 ", bankName='" + bankName + '\'' +
                 ", bankNumber='" + bankNumber + '\'' +
-                ", receiverName='" + receiverName + '\'' +
-                '}';
+                ", receiverName='" + receiverName + '\'' + '\'';
     }
 }
