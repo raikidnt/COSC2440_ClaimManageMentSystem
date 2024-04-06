@@ -324,7 +324,41 @@ public class ClaimSystem implements ClaimProcessManager {
         }
         delete(claim);
     }
-
+    public void writeData() {
+        String dependentFilePath = "src/Data/Dependent.csv";
+        String policyHolderFilePath = "src/Data/PolicyHolder.csv";
+        String insuranceCardFilePath = "src/Data/InsuranceCard.csv";
+        String claimFilePath = "src/Data/Claim.csv";
+        try {
+            BufferedWriter dependentWriter = new BufferedWriter(new FileWriter(dependentFilePath));
+            for (Dependent dependent : dependents) {
+                dependentWriter.write(dependent.getCustomerId() + "," + dependent.getFullName() + "," + dependent.getClaimList() + "," + dependent.getInsuranceCard().getCardNumber());
+                dependentWriter.newLine();
+            }
+            dependentWriter.close();
+            BufferedWriter policyHolderWriter = new BufferedWriter(new FileWriter(policyHolderFilePath));
+            for (PolicyHolder policyHolder : policyHolders) {
+                policyHolderWriter.write(policyHolder.getCustomerId() + "," + policyHolder.getFullName() + "," + policyHolder.getClaimList() + "," + policyHolder.getInsuranceCard().getCardNumber() + "," + policyHolder.getDependentIds());
+                policyHolderWriter.newLine();
+            }
+            policyHolderWriter.close();
+            BufferedWriter insuranceCardWriter = new BufferedWriter(new FileWriter(insuranceCardFilePath));
+            for (InsuranceCard insuranceCard : insuranceCards) {
+                insuranceCardWriter.write(insuranceCard.getCardNumber() + "," + insuranceCard.getPolicyOwner() + "," + insuranceCard.getExpiryDate());
+                insuranceCardWriter.newLine();
+            }
+            insuranceCardWriter.close();
+            BufferedWriter claimWriter = new BufferedWriter(new FileWriter(claimFilePath));
+            for (Claim claim : claims) {
+                claimWriter.write(claim.getClaimId() + "," + claim.getClaimDate() + "," + claim.getExamDate() + "," + claim.getDoccumentList() + "," + claim.getClaimAmount() + "," + claim.getStatus() + "," + claim.getBankName() + "," + claim.getBankNumber() + "," + claim.getReceiverName());
+                claimWriter.newLine();
+            }
+            claimWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to the file");
+            e.printStackTrace();
+        }
+    }
     private static ArrayList<String> parseArraytoArrList(String arrayString){
         ArrayList<String> parts = new ArrayList<>();
         // Check if the input string represents an empty array
