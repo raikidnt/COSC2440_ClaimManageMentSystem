@@ -44,6 +44,7 @@ public class Claim {
         else{
             this.examDate = LocalDate.parse(examDate);
         }
+        this.documentList = documentList;
         this.claimAmount = claimAmount;
         this.status = status;
         this.bankName = bankName;
@@ -154,18 +155,36 @@ public class Claim {
     public void setReceiverName(String receiverName) {
         this.receiverName = receiverName;
     }
+    public String documentListData(){
+        if (documentList == null){
+            return "[]";
+        } else if (documentList.isEmpty()) {
+            return "[]";
+        }
+        StringBuilder data = new StringBuilder("[");
+        for (String document : documentList){
+            if(Objects.equals(document, documentList.getLast())){
+                data.append(document).append("]");
+            }
+            else{
+                data.append(document).append(";");
+            }
+        }
+        return data.toString();
+    }
 
     @Override
     public String toString() {
-        return "claimId='" + claimId + '\'' +
-                ", claimDate=" + claimDate +
-                ", insuredPerson=" + insuredPerson.getFullName() +
-                ", examDate=" + examDate +
-                ", documentList=" + documentList +
-                ", claimAmount=" + claimAmount +
-                ", status=" + status + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", bankNumber='" + bankNumber + '\'' +
-                ", receiverName='" + receiverName + '\'' + '\'';
+//        return "Id:" + claimId + "\t" +
+//                ", claimDate: " + claimDate +
+//                ", insuredPerson: " + insuredPerson.getFullName() + "\t" + "\t" +"\t"+
+//                ", examDate: " + examDate +
+//                ", documentList: " + documentList +
+//                ", claimAmount: " + claimAmount +
+//                ", status: " + status +
+//                ", bankName: " + bankName +
+//                ", bankNumber: " + bankNumber +
+//                ", receiverName: " + receiverName;
+        return String.format("%-20s %-20s %-20s %-20s %-60s %-20s %-20s %-20s %-20s %s", claimId, claimDate, insuredPerson.getFullName(), examDate, documentList, claimAmount, status, bankName, bankNumber, receiverName);
     }
 }

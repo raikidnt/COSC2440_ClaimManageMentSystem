@@ -72,6 +72,22 @@ public class Customer {
         }
     }
 
+    public String claimListData() {
+        if (this.claimList.isEmpty()) {
+            return "[]";
+        }
+        StringBuilder data = new StringBuilder("[");
+        for (Claim c : claimList) {
+            if (c.equals(claimList.getLast())) {
+                data.append(c.getClaimId()).append("]");
+            }
+            else {
+                data.append(c.getClaimId()).append(";");
+            }
+        }
+        return data.toString();
+    }
+
     @Override
     public String toString() {
         String[] claimids = new String[claimList.size()];

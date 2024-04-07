@@ -36,6 +36,19 @@ public class PolicyHolder extends Customer {
         dependents.add(dependent);
     }
 
-
-
+    public String dependentIdData(){
+        if (dependents.isEmpty()){
+            return "[]";
+        }
+        StringBuilder data = new StringBuilder("[");
+        for (Dependent dependent : dependents){
+            if(dependent == dependents.getLast()){
+                data.append(dependent.getCustomerId()).append("]");
+            }
+            else{
+                data.append(dependent.getCustomerId()).append(";");
+            }
+        }
+        return data.toString();
+    }
 }
