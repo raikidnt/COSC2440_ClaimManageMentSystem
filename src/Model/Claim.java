@@ -5,6 +5,7 @@ import Model.Customer;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Claim {
     private String claimId;
@@ -37,7 +38,12 @@ public class Claim {
     public Claim(String claimId, String claimDate, String examDate, ArrayList<String> documentList, float claimAmount, String status, String bankName, String bankNumber, String receiverName) {
         this.claimId = claimId;
         this.claimDate = LocalDate.parse(claimDate);
-        this.examDate = LocalDate.parse(examDate);
+        if (Objects.equals(examDate, "null")){
+           this.examDate = null;
+        }
+        else{
+            this.examDate = LocalDate.parse(examDate);
+        }
         this.claimAmount = claimAmount;
         this.status = status;
         this.bankName = bankName;

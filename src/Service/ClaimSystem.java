@@ -48,12 +48,17 @@ public class ClaimSystem implements ClaimProcessManager {
 
     @Override
     public void delete(Claim claim) {
+        Claim deleteNode = null;
         for (Claim smt : claims) {
             if (smt.getClaimId().equals(claim.getClaimId())) {
-                claims.remove(smt);
-            } else {
-                System.out.println("The claim does not exist in the data");
+                deleteNode = smt;
+                break; // Exit the loop once the matching claim is found
             }
+        }
+        if (deleteNode != null) {
+            claims.remove(deleteNode);
+        } else {
+            System.out.println("The claim does not exist in the data");
         }
     }
 
@@ -175,6 +180,8 @@ public class ClaimSystem implements ClaimProcessManager {
             System.out.println("Error reading the file");
             e.printStackTrace();
         }
+        System.out.println(policyHolderClaimids);
+        System.out.println(dependentClaimids);
         for (int i = 0; i < dependentClaimids.size(); i++){
             for(int el = 0 ; el < claims.size(); el++){
                 //Access the Element in the dependentClaimids array to get the claim ids
@@ -238,13 +245,12 @@ public class ClaimSystem implements ClaimProcessManager {
 //    Parse array of strings data into List of strings
 
     public void addClaim(){
-//        Get the last number of the claimId of the last claim in claims, as the claim id will be like f-0000000001
         int newClaimId;
         if(claims.isEmpty()){
             newClaimId = 1;
         }
         else {
-            String lastClaimId = claims.get(claims.size()-1).getClaimId();
+            String lastClaimId = claims.getLast().getClaimId();
             String[] splitClaimId = lastClaimId.split("-");
             newClaimId = Integer.parseInt(splitClaimId[1]) + 1;
         }
@@ -256,7 +262,7 @@ public class ClaimSystem implements ClaimProcessManager {
         for (Dependent dependent : dependents) {
             System.out.println(dependent);
         }
-        System.out.printf("Enter the id of the insuring person: ");
+        System.out.print("Enter the id of the insuring person: ");
         String insuringPersonId = scanner.next();
         Customer insuringPerson = null;
         while (insuringPerson == null){
@@ -314,10 +320,14 @@ public class ClaimSystem implements ClaimProcessManager {
                 System.out.println("Bank number must be a number, please enter again!");
             }
         }while (!isNumber);
-
+        ArrayList<String> documentListArray;
         System.out.print("Enter the document list separated by commas: ");
         String documentList = scanner.nextLine();
-        ArrayList<String> documentListArray = parseArraytoArrList(documentList);
+        if (documentList.isEmpty()){
+            documentListArray = new ArrayList<>();
+        } else {
+            documentListArray = parseArraytoArrList(documentList);
+        }
         Claim newClaim = new Claim(newClaimIdString, claimDate,insuringPerson, documentListArray, claimAmount, status, bankName, bankNumber, receiverName);
         if (insuringPerson instanceof PolicyHolder){
             ((PolicyHolder) insuringPerson).addClaim(newClaim);
@@ -358,6 +368,9 @@ public class ClaimSystem implements ClaimProcessManager {
 
     public void deleteClaim(){
         printClaims();
+        if (claims.isEmpty()){
+            return;
+        }
         System.out.println("Enter the claim id of the claim you want to delete");
         Scanner scanner = new Scanner(System.in);
         String claimId = scanner.next();
@@ -367,6 +380,8 @@ public class ClaimSystem implements ClaimProcessManager {
             return;
         }
         delete(claim);
+        claim.getInsuredPerson().removeClaim(claim);
+        System.out.println("Claim deleted");
     }
     public void writeData() {
         String dependentFilePath = "src/Data/Dependent.csv";
