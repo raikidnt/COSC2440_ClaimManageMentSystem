@@ -279,8 +279,25 @@ public class ClaimSystem implements ClaimProcessManager {
         }
         System.out.println();
         LocalDate claimDate = LocalDate.now();
-        System.out.print("Enter the claim amount: ");
-        float claimAmount = scanner.nextFloat();
+        float claimAmount = 0;
+        boolean isFloat = false;
+        boolean isNegative = true;
+        do {
+            System.out.print("Enter the claim amount: ");
+            String claimAmountInput = scanner.next();
+            isFloat = checkFloatString(claimAmountInput);
+            if (!isFloat){
+                System.out.println("Claim amount must be a number, please enter again!");
+            } else {
+                claimAmount = Float.parseFloat(claimAmountInput);
+                if (claimAmount < 0){
+                    System.out.println("Claim amount must be positive, please enter again!");
+                }
+                else {
+                    isNegative = false;
+                }
+            }
+        }while (!isFloat || isNegative);
         scanner.nextLine();
         String status = "New";
         System.out.print("Enter the receiver name: ");
@@ -389,13 +406,15 @@ public class ClaimSystem implements ClaimProcessManager {
     private static boolean checkNumString(String numString){
         return numString.matches("[0-9]+");
     }
+    private static boolean checkFloatString(String floatString){
+        return floatString.matches("[0-9]+(\\.){0,1}[0-9]*");
+    }
     private static ArrayList<String> parseArraytoArrList(String arrayString){
         ArrayList<String> parts = new ArrayList<>();
         // Check if the input string represents an empty array
         if (arrayString.trim().equals("[]")) {
             return parts; // Return an empty String[] if input is "[]"
         }
-
         // Remove the brackets
         arrayString = arrayString.substring(1, arrayString.length()-1);
         String[] partsArray = arrayString.split(",");
