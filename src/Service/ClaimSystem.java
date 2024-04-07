@@ -85,7 +85,7 @@ public class ClaimSystem implements ClaimProcessManager {
 
     public void run() {
         loadData();
-        System.out.println("Welcome to the Insurance Model.Claim System");
+        System.out.println("Welcome to the Insurance Claim System");
         while (true) {
             System.out.println("Please select an option:");
             System.out.println("1. View claims");
@@ -172,7 +172,6 @@ public class ClaimSystem implements ClaimProcessManager {
                 float arr4 = ParseFloat(splitArray[4]);
                 Claim newClaim = new Claim(splitArray[0], splitArray[1], splitArray[2], documentList, arr4, splitArray[5], splitArray[6], splitArray[7],splitArray[8]);
                 claims.add(newClaim);
-                System.out.println(newClaim.getDoccumentList());
             }
             claimReader.close();
         }catch (FileNotFoundException e){
@@ -181,9 +180,6 @@ public class ClaimSystem implements ClaimProcessManager {
         }catch (IOException e){
             System.out.println("Error reading the file");
             e.printStackTrace();
-        }
-        for (InsuranceCard insuranceCard :insuranceCards){
-            System.out.println(insuranceCard.getCardNumber());
         }
         for (int i = 0; i < dependentClaimids.size(); i++){
             for(int el = 0 ; el < claims.size(); el++){
@@ -212,7 +208,6 @@ public class ClaimSystem implements ClaimProcessManager {
                 if (dependentCardnumbers.get(i).equals(insuranceCard.getCardNumber())) {
                     dependents.get(i).setInsuranceCard(insuranceCard);
                     insuranceCard.setCardHolder(dependents.get(i));
-                    System.out.println(dependents.get(i).getInsuranceCard().getCardNumber()+ dependents.get(i).getCustomerId());
                 }
             }
         }
@@ -221,11 +216,9 @@ public class ClaimSystem implements ClaimProcessManager {
                 if (policyHolderCardnumbers.get(i).equals(insuranceCard.getCardNumber())) {
                     policyHolders.get(i).setInsuranceCard(insuranceCard);
                     insuranceCard.setCardHolder(policyHolders.get(i));
-                    System.out.println(policyHolders.get(i).getInsuranceCard().getCardNumber() + policyHolders.get(i).getCustomerId());
                 }
             }
         }
-        System.out.println(policyHolders.get(0).getCustomerId()+ policyHolders.get(0).getInsuranceCard().getCardNumber());
         for (int i = 0; i < policyHolderDependentIds.size(); i++) {
             for (int el = 0; el < dependents.size(); el++) {
                 for (int j = 0; j < policyHolderDependentIds.get(i).length; j++) {
@@ -263,12 +256,14 @@ public class ClaimSystem implements ClaimProcessManager {
         }
         String newClaimIdString = "f-" + String.format("%010d", newClaimId);
         Scanner scanner = new Scanner(System.in);
+        System.out.printf("\n %-19s%-20s%-20s%s\n\n","Customer ID", "Full Name", "Insurance Card", "Claims");
         for (PolicyHolder policyHolder : policyHolders) {
             System.out.println(policyHolder);
         }
         for (Dependent dependent : dependents) {
             System.out.println(dependent);
         }
+        System.out.println();
         System.out.print("Enter the id of the insuring person: ");
         String insuringPersonId = scanner.next();
         Customer insuringPerson = null;

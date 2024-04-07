@@ -175,16 +175,6 @@ public class Claim {
 
     @Override
     public String toString() {
-//        return "Id:" + claimId + "\t" +
-//                ", claimDate: " + claimDate +
-//                ", insuredPerson: " + insuredPerson.getFullName() + "\t" + "\t" +"\t"+
-//                ", examDate: " + examDate +
-//                ", documentList: " + documentList +
-//                ", claimAmount: " + claimAmount +
-//                ", status: " + status +
-//                ", bankName: " + bankName +
-//                ", bankNumber: " + bankNumber +
-//                ", receiverName: " + receiverName;
         return String.format("%-20s %-20s %-20s %-20s %-60s %-20s %-20s %-20s %-20s %s", claimId, claimDate, insuredPerson.getFullName(), examDate, documentList, claimAmount, status, bankName, bankNumber, receiverName);
     }
 }

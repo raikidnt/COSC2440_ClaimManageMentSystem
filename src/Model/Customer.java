@@ -94,9 +94,6 @@ public class Customer {
         for (int i = 0; i < claimList.size(); i++) {
             claimids[i] = claimList.get(i).getClaimId();
         }
-        return "customerId='" + customerId + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", insuranceCard=" + insuranceCard +
-                ", claimList=" + Arrays.toString(claimids) + '\'';
+        return String.format("%-20s%-20s%-20s%s",customerId, fullName, insuranceCard.getCardNumber(), Arrays.toString(claimids));
     }
 }
