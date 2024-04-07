@@ -1,8 +1,10 @@
+/**
+ * @author DoNhatThanh-s3977947
+ */
 package Service;
 
 
 import Model.*;
-
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,13 +16,14 @@ public class ClaimSystem implements ClaimProcessManager {
     private List<PolicyHolder> policyHolders;
     private List<InsuranceCard> insuranceCards;
     private List<Claim> claims;
+//    Constructor
     public ClaimSystem() {
         this.dependents = new ArrayList<>();
         this.policyHolders = new ArrayList<>();
         this.insuranceCards = new ArrayList<>();
         this.claims = new ArrayList<>();
     }
-
+//  Interface override methods
     @Override
     public void add(Claim claim) {
         claims.add(claim);
@@ -29,7 +32,7 @@ public class ClaimSystem implements ClaimProcessManager {
 
     @Override
     public void update(Claim claim) {
-        for (Claim smt : claims) {
+        for (Claim smt : getAll()) {
             if (claim.getClaimId().equals(smt.getClaimId())) {
                 smt.setClaimDate(claim.getClaimDate());
                 smt.setStatus(claim.getStatus());
@@ -64,7 +67,7 @@ public class ClaimSystem implements ClaimProcessManager {
 
     @Override
     public Claim getOne(String claimId) {
-        for (Claim smt : claims) {
+        for (Claim smt : getAll()) {
             if (smt.getClaimId().equals(claimId)) {
                 return smt;
             }
@@ -82,7 +85,7 @@ public class ClaimSystem implements ClaimProcessManager {
     }
 
 
-
+//    Main method, starting the program
     public void run() {
         loadData();
         System.out.println("Welcome to the Insurance Claim System");
@@ -118,6 +121,7 @@ public class ClaimSystem implements ClaimProcessManager {
             }
         }
     }
+//    Load data from the csv files
     public void loadData(){
 //        Initialize objects with no Class attributes
         String dependentFilePath = "src/Data/Dependent.csv";
@@ -230,10 +234,11 @@ public class ClaimSystem implements ClaimProcessManager {
         }
     }
 
+//    Print the claims
     public void printClaims() {
         if (claims.isEmpty()){
             System.out.println("No claims available");
-            System.out.println("");
+            System.out.println();
             return;
         }
         System.out.printf("\n %-21s%-21s%-21s%-21s%-61s%-21s%-21s%-21s%-21s%s\n \n", "Claim ID", "Claim Date", "Full Name", "ExamDate","Document List", "Claim Amount", "Status", "Bank Name", "Bank Number", "Receiver Name");
@@ -242,8 +247,8 @@ public class ClaimSystem implements ClaimProcessManager {
         }
         System.out.println();
     }
-//    Parse array of strings data into List of strings
 
+//    Add a new claim
     public void addClaim(){
         int newClaimId;
         if(claims.isEmpty()){
@@ -341,6 +346,7 @@ public class ClaimSystem implements ClaimProcessManager {
         System.out.println(newClaim);
         claims.add(newClaim);
     }
+//    Process a claim
     public void processClaim(){
         for (Claim claim : claims) {
             if (claim.getStatus().equals("New")||claim.getStatus().equals("Processing")) {
@@ -369,7 +375,7 @@ public class ClaimSystem implements ClaimProcessManager {
         claim.setStatus(status);
         System.out.println("Claim processed: " + claim);
     }
-
+//    Delete a claim
     public void deleteClaim(){
         printClaims();
         if (claims.isEmpty()){
@@ -387,6 +393,7 @@ public class ClaimSystem implements ClaimProcessManager {
         claim.getInsuredPerson().removeClaim(claim);
         System.out.println("Claim deleted");
     }
+//    Write data to the csv files
     public void writeData() {
         String dependentFilePath = "src/Data/Dependent.csv";
         String policyHolderFilePath = "src/Data/PolicyHolder.csv";
@@ -422,12 +429,17 @@ public class ClaimSystem implements ClaimProcessManager {
             e.printStackTrace();
         }
     }
+//    Helper methods
+//    Check if a string is a number
     private static boolean checkNumString(String numString){
         return numString.matches("[0-9]+");
     }
+//    Check if a string is a float
     private static boolean checkFloatString(String floatString){
         return floatString.matches("[0-9]+(\\.){0,1}[0-9]*");
     }
+//    Parse methods
+//    Parse an array to an ArrayList
     private static ArrayList<String> parseArraytoArrList(String arrayString){
         ArrayList<String> parts = new ArrayList<>();
         // Check if the input string represents an empty array
@@ -443,10 +455,11 @@ public class ClaimSystem implements ClaimProcessManager {
         return parts;
     }
 
+//    Parse a float from a string
     private static float ParseFloat(String floatString){
         return Float.parseFloat(floatString);
     }
-
+//    Parse a String List from a string
     private static String[] parseArray(String arrayString){
         // Check if the input string represents an empty array
         if (arrayString.trim().equals("[]")) {
@@ -461,10 +474,11 @@ public class ClaimSystem implements ClaimProcessManager {
         }
         return parts;
     }
-
+//    Parse a float to a string
     private static String parseFloattoString(float number){
         return Float.toString(number);
     }
+//    Parse a LocalDate to a string
     private static String parseLocalDatetoString(LocalDate date){
         if (date == null){
             return "null";

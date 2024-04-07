@@ -1,3 +1,6 @@
+/**
+ * @author DoNhatThanh-s3977947
+ */
 package Service;
 
 import Model.Claim;

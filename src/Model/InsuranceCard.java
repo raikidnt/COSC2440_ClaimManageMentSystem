@@ -1,38 +1,26 @@
+/**
+ * @author DoNhatThanh-s3977947
+ */
 package Model;
-
-import Model.Customer;
 
 import java.time.LocalDate;
 
 public class InsuranceCard {
-    private String cardNumber;
+    private final String cardNumber;
     private Customer cardHolder;
-    private String policyOwner;
-    private LocalDate expiryDate;
+    private final String policyOwner;
+    private final LocalDate expiryDate;
 
+//    Constructor
     public InsuranceCard(String cardNumber, String policyOwner, String expiryDate) {
         this.cardNumber = cardNumber;
         this.policyOwner = policyOwner;
         this.expiryDate = LocalDate.parse(expiryDate);
     }
-    public InsuranceCard(String cardNumber, String policyOwner, LocalDate expiryDate) {
-        this.cardNumber = cardNumber;
-        this.policyOwner = policyOwner;
-        this.expiryDate = expiryDate;
-        this.cardHolder = null;
-    }
 
-
+//    getters and setters
     public String getCardNumber() {
         return cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public Customer getCardHolder() {
-        return cardHolder;
     }
 
     public void setCardHolder(Customer cardHolder) {
@@ -43,18 +31,9 @@ public class InsuranceCard {
         return policyOwner;
     }
 
-    public void setPolicyOwner(String policyOwner) {
-        this.policyOwner = policyOwner;
-    }
-
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
 
 
 }

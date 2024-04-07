@@ -1,14 +1,14 @@
+/**
+ * @author DoNhatThanh-s3977947
+ */
 package Model;
-
-import Model.Customer;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Claim {
-    private String claimId;
+    private final String claimId;
     private LocalDate claimDate;
     private Customer insuredPerson;
     private LocalDate examDate;
@@ -19,22 +19,7 @@ public class Claim {
     private String bankNumber;
     private String receiverName;
 
-    public Claim(String claimId, String claimDate, Customer
-                insuredPerson, String examDate, List<String> documentList,
-                 float claimAmount, String status,
-                 String bankName, String bankNumber, String receiverName) {
-        this.claimId = claimId;
-        this.claimDate = LocalDate.parse(claimDate);
-        this.insuredPerson = insuredPerson;
-        this.examDate = LocalDate.parse(examDate);
-        this.documentList = documentList;
-        this.claimAmount = claimAmount;
-        this.status = status;
-        this.bankName = bankName;
-        this.bankNumber = bankNumber;
-        this.receiverName = receiverName;
-    }
-
+//    Constructors
     public Claim(String claimId, String claimDate, String examDate, ArrayList<String> documentList, float claimAmount, String status, String bankName, String bankNumber, String receiverName) {
         this.claimId = claimId;
         this.claimDate = LocalDate.parse(claimDate);
@@ -65,7 +50,7 @@ public class Claim {
         this.documentList = documentList;
     }
 
-
+//    Getters and Setters
     public String getClaimId() {
         return claimId;
     }
@@ -107,23 +92,6 @@ public class Claim {
     }
     public void setDoccumentList(List<String> doclist){ this.documentList = doclist; }
 
-//   document add, remove ,clear
-    public void addDocument(String document) {
-        if (documentList.contains(document)) {
-            return;
-        }
-        documentList.add(document);
-    }
-    public void removeDocument(String document) {
-        if (documentList.contains(document)) {
-            return;
-        }
-        documentList.remove(document);
-    }
-    public void clearDocument() {
-        documentList.clear();
-    }
-
     public float getClaimAmount() {
         return claimAmount;
     }
@@ -152,9 +120,7 @@ public class Claim {
         return receiverName;
     }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
+//    Data writing method, use to parse the documentList to a string
     public String documentListData(){
         if (documentList == null){
             return "[]";
@@ -173,6 +139,7 @@ public class Claim {
         return data.toString();
     }
 
+//    Override toString method with proper formatting
     @Override
     public String toString() {
         return String.format("%-20s %-20s %-20s %-20s %-60s %-20s %-20s %-20s %-20s %s", claimId, claimDate, insuredPerson.getFullName(), examDate, documentList, claimAmount, status, bankName, bankNumber, receiverName);
