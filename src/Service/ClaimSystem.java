@@ -226,6 +226,11 @@ public class ClaimSystem implements ClaimProcessManager {
     }
 
     public void printClaims() {
+        if (claims.isEmpty()){
+            System.out.println("No claims available");
+            System.out.println("");
+            return;
+        }
         for (Claim claim : claims) {
             System.out.println(claim);
         }
@@ -234,12 +239,17 @@ public class ClaimSystem implements ClaimProcessManager {
 
     public void addClaim(){
 //        Get the last number of the claimId of the last claim in claims, as the claim id will be like f-0000000001
-        String lastClaimId = claims.get(claims.size()-1).getClaimId();
-        String[] splitClaimId = lastClaimId.split("-");
-        int newClaimId = Integer.parseInt(splitClaimId[1]) + 1;
+        int newClaimId;
+        if(claims.isEmpty()){
+            newClaimId = 1;
+        }
+        else {
+            String lastClaimId = claims.get(claims.size()-1).getClaimId();
+            String[] splitClaimId = lastClaimId.split("-");
+            newClaimId = Integer.parseInt(splitClaimId[1]) + 1;
+        }
         String newClaimIdString = "f-" + String.format("%010d", newClaimId);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the claim date in the format yyyy-mm-dd");
         for (PolicyHolder policyHolder : policyHolders) {
             System.out.println(policyHolder);
         }
@@ -387,7 +397,7 @@ public class ClaimSystem implements ClaimProcessManager {
 
         // Remove the brackets
         arrayString = arrayString.substring(1, arrayString.length()-1);
-        String[] parts = arrayString.split(",");
+        String[] parts = arrayString.split(";");
         for (int i = 0; i < parts.length; i++) {
             parts[i] = parts[i].trim().replaceAll("^\"|\"$", "");
         }

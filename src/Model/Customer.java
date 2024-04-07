@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Customer {
@@ -73,9 +74,13 @@ public class Customer {
 
     @Override
     public String toString() {
+        String[] claimids = new String[claimList.size()];
+        for (int i = 0; i < claimList.size(); i++) {
+            claimids[i] = claimList.get(i).getClaimId();
+        }
         return "customerId='" + customerId + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", insuranceCard=" + insuranceCard +
-                ", claimList=" + claimList + '\'';
+                ", claimList=" + Arrays.toString(claimids) + '\'';
     }
 }
