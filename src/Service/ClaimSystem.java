@@ -84,9 +84,9 @@ public class ClaimSystem implements ClaimProcessManager {
         while (true) {
             System.out.println("Please select an option:");
             System.out.println("1. View claims");
-            System.out.println("2. Add a new Model.Claim");
-            System.out.println("3. Process a Model.Claim");
-            System.out.println("4. Delete a Model.Claim");
+            System.out.println("2. Add a new claim");
+            System.out.println("3. Process a claim");
+            System.out.println("4. Delete a claim");
             System.out.println("5. Exit");
             Scanner scanner = new Scanner(System.in);
             int option = scanner.nextInt();
@@ -256,7 +256,7 @@ public class ClaimSystem implements ClaimProcessManager {
         for (Dependent dependent : dependents) {
             System.out.println(dependent);
         }
-        System.out.println("Enter the id of the insuring person");
+        System.out.printf("Enter the id of the insuring person: ");
         String insuringPersonId = scanner.next();
         Customer insuringPerson = null;
         while (insuringPerson == null){
@@ -277,20 +277,36 @@ public class ClaimSystem implements ClaimProcessManager {
                 insuringPersonId = scanner.next();
             }
         }
+        System.out.println();
         LocalDate claimDate = LocalDate.now();
+        System.out.print("Enter the claim amount: ");
         float claimAmount = scanner.nextFloat();
-        System.out.println("Enter the status of the claim");
-        String status = scanner.next();
-        System.out.println("Enter the receiver name");
-        String receiverName = scanner.next();
-        System.out.println("Enter the bank name");
-        String bankName = scanner.next();
-        System.out.println("Enter the bank number");
-        String bankNumber = scanner.next();
-        System.out.println("Enter the document list separated by commas");
-        String documentList = scanner.next();
+        scanner.nextLine();
+        String status = "New";
+        System.out.print("Enter the receiver name: ");
+        String receiverName = scanner.nextLine();
+        System.out.print("Enter the bank name: ");
+        String bankName = scanner.nextLine();
+        String bankNumber;
+        boolean isNumber = false;
+        do {
+            System.out.print("Enter the bank number: ");
+            bankNumber = scanner.nextLine();
+            isNumber = checkNumString(bankNumber);
+            if (!isNumber) {
+                System.out.println("Bank number must be a number, please enter again!");
+            }
+        }while (!isNumber);
+
+        System.out.print("Enter the document list separated by commas: ");
+        String documentList = scanner.nextLine();
         ArrayList<String> documentListArray = parseArraytoArrList(documentList);
         Claim newClaim = new Claim(newClaimIdString, claimDate,insuringPerson, documentListArray, claimAmount, status, bankName, bankNumber, receiverName);
+        if (insuringPerson instanceof PolicyHolder){
+            ((PolicyHolder) insuringPerson).addClaim(newClaim);
+        } else {
+            ((Dependent) insuringPerson).addClaim(newClaim);
+        }
         System.out.println("New claim added" + newClaim);
         claims.add(newClaim);
     }
@@ -317,6 +333,7 @@ public class ClaimSystem implements ClaimProcessManager {
             status = "Processing";
         } else {
             status = "Done";
+            claim.setExamDate(LocalDate.now());
         }
         claim.setStatus(status);
         System.out.println("Claim processed: " + claim);
@@ -368,6 +385,9 @@ public class ClaimSystem implements ClaimProcessManager {
             System.out.println("Error writing to the file");
             e.printStackTrace();
         }
+    }
+    private static boolean checkNumString(String numString){
+        return numString.matches("[0-9]+");
     }
     private static ArrayList<String> parseArraytoArrList(String arrayString){
         ArrayList<String> parts = new ArrayList<>();
